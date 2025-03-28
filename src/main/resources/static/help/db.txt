@@ -1,0 +1,51 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL, -- Храните хешированные пароли!
+    email VARCHAR(100) UNIQUE NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    city VARCHAR(50),
+    registration_date TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    isbn VARCHAR(20) UNIQUE,  -- Можно сделать UNIQUE, если требуется
+    description TEXT,
+    genre VARCHAR(50),
+    publication_year INTEGER,
+    owner_id INTEGER REFERENCES users(id), -- Владелец книги
+    status VARCHAR(20) DEFAULT 'Available', -- Available, Pending, Exchanged, Unavailable
+    image_url VARCHAR(255) NULL -- URL картинки обложки
+);
+
+CREATE TABLE exchanges (
+    id SERIAL PRIMARY KEY,
+    book_id INTEGER REFERENCES books(id),
+    requester_id INTEGER REFERENCES users(id), -- Кто запросил книгу
+    owner_id INTEGER REFERENCES users(id),   -- Кому принадлежит книга (для удобства)
+    request_date TIMESTAMP DEFAULT NOW(),
+    exchange_date TIMESTAMP,
+    return_date TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'Pending'  -- Pending, Accepted, Rejected, Completed, Returned
+);
+
+-- Дополнительные таблицы (по желанию):
+CREATE TABLE book_comments (
+    id SERIAL PRIMARY KEY,
+    book_id INTEGER REFERENCES books(id),
+    user_id INTEGER REFERENCES users(id),
+    comment_text TEXT NOT NULL,
+    comment_date TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE user_ratings (
+    id SERIAL PRIMARY KEY,
+    rater_id INTEGER REFERENCES users(id),
+    rated_id INTEGER REFERENCES users(id),
+    rating INTEGER,  -- Например, от 1 до 5
+    rating_date TIMESTAMP DEFAULT NOW()
+);
