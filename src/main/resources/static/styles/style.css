@@ -1,3 +1,160 @@
+#logo{
+    margin:10px;
+    float:left;
+}
 table{
     border: solid 1px;
+}
+body{
+    background-color: #081c15;
+    background-image: url("../images/лес2.webp");
+    background-attachment:fixed;
+}
+
+div.content{
+    margin-top:3%;
+    max-width: 90%;
+    font-size: 12pt;
+    font-family: 'AgencyCirillic';
+    background-color: rgba(183, 228, 199, 0.91);
+    padding-top:15px;
+    padding-bottom:15px;
+    border-radius: 15px;
+}
+
+header
+{
+    background-color: rgb(8, 28, 21);
+    width:100%;
+    height:120px;
+}
+header h2{
+    color:#95d5b2;
+    padding: 40px 40px 40px 10px;
+    font-family: "Agency FB";
+}
+
+.book{
+    background-color: #d8f3dc;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+}
+button{
+    border: solid 2px;
+    border-radius: 3px;
+    background-color:#2d6a4f;
+}
+
+nav ul li{
+    float:left;
+    margin:10px;
+    list-style: none;
+}
+
+nav ul{margin:0;}
+
+nav{
+    position: absolute;
+    padding:30px;
+    top:0;
+    background-color:#ffffff00;
+    margin:0 auto;
+    display:flex;
+    width: 100%;
+    justify-content: end;
+}
+
+nav ul li a{
+    font-family: AgencyCirillic;
+    color:#95d5b2;
+    text-decoration: none;
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+nav form{
+    font-family: AgencyCirillic;
+}
+
+nav form input{
+    background-color: #95d5b2;
+    border-radius: 5px;
+    border: solid black;
+}
+
+span{
+    font-size: 16pt;
+}
+
+.min{
+ font-size:12pt;
+ color: #2d6a4f;
+}
+
+.req-wrap{
+    background-color: #2d6a4f;
+    border-bottom-left-radius:  3px;
+    border-bottom-right-radius: 3px;
+}
+.Request a{
+    display: flex;
+    justify-content: end;
+    padding-right:8px;
+    color: #95d5b2;
+    font-size: 18pt;
+}
+
+.Requested{
+    color: #081c15;
+}
+.Requested span{
+    display: flex;
+    justify-content: end;
+    padding-right:8px;
+    font-size: 18pt;
+}
+
+.min1{
+    color: #2d6a4f;
+    font-size: 16pt;
+}
+
+.pagination{
+    display:flex;
+    justify-content: center;
+    margin:10px;
+}
+
+.pagination a{
+    margin:10px;
+    font-size: 18pt;
+    color: #081c15;
+    display:flex;
+    justify-content: center;
+}
+
+.pagination a:hover{
+    color: #2d6a4f;
+}
+
+.pagination a.active{
+    color: darkcyan;
+}
+
+@font-face {
+    font-family: "AgencyCirillicBold";
+    src: url("../fonts/Cyrillic.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "AgencyCirillic";
+    src: url("../fonts/agencyfbcyrillic.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+    font-size: large;
 }

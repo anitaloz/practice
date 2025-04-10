@@ -4,9 +4,7 @@ import com.example.practice.domain.Role;
 import com.example.practice.domain.User;
 import com.example.practice.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +25,7 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String registration() {
-        return "registration";
+        return "registration.html";
     }
 
     public static boolean isValidString(String str) {
@@ -48,15 +46,15 @@ public class RegistrationController {
 
         if (userFromDb != null) {
             model.addAttribute("message", "User exists!");
-            return "registration";
+            return "registration.html";
         }
         if(user.getUsername()==null) {
             model.addAttribute("message", "Поле 'username' обязательно");
-            return "registration";
+            return "registration.html";
         }
         if(!isValidString(user.getUsername())) {
             model.addAttribute("message", "Поле 'username' может содержать только латинские буквы, цифры и '_', '.'");
-            return "registration";
+            return "registration.html";
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));

@@ -1,5 +1,6 @@
 package com.example.practice.domain;
 
+import com.example.practice.repositories.ExchangeRepo;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -25,15 +26,36 @@ public class Book {
     @JoinColumn(name = "owner_id") // Связь с таблицей usr
     private User owner;
 
-    @Column(length = 20)
-    private String status = "Available"; // Значение по умолчанию
+    @Transient // Это поле не будет сохранено в базе данных
+    private boolean requested;
 
+    // Геттеры и сеттеры для всех полей, включая requested
+
+    public boolean isRequested() {
+        return requested;
+    }
+
+    public void setRequested(boolean requested) {
+        this.requested = requested;
+    }
     @Column(length = 255)
     private String imageUrl;
 
     @Transient // Это поле не будет сохраняться в базе данных
     private String ownerUsername=getOwnerUsername(); // Добавили поле для имени пользователя
+    public Book(String title, String author, String isbn, String description, String genre, Integer publicationYear, User owner, String imageUrl){
+        this.title=title;
+        this.author=author;
+        this.isbn=isbn;
+        this.genre=genre;
+        this.description=description;
+        this.owner=owner;
+        this.publicationYear=publicationYear;
+        //this.status=status;
+        this.imageUrl=imageUrl;
+    }
 
+    public Book(){}
     public String getOwnerUsername() {
         if (owner != null) {
             return owner.getUsername();
@@ -105,13 +127,13 @@ public class Book {
         this.owner = owner;
     }
 
-    public String getStatus() {
-        return status;
-    }
+//    public String getStatus() {
+//        return status;
+//    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+//    public void setStatus(String status) {
+//        this.status = status;
+//    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -138,17 +160,12 @@ public class Book {
     // --- toString() (для отладки) ---
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
+        return "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", description='" + description + '\'' +
                 ", genre='" + genre + '\'' +
                 ", publicationYear=" + publicationYear +
-                ", owner=" + (owner != null ? owner.getId() : null) + // чтобы избежать StackOverflowError
-                ", status='" + status + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                '}';
+                ", owner=" + (owner != null ? owner.getId() : null); // чтобы избежать StackOverflowError;
     }
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+</head>
+<body>
+<div class="container-fluid page px-sm-0">
+    <header>
+        <nav>
+            <ul class="px-3 mx-sm-2">
+                <li><a class="px-sm-2" th:href="@{/main}">Главная</a></li>
+                <li><a class="px-sm-2" th:href="@{/myBooks}">Мои книги</a></li>
+                <li><a class="px-sm-2" href="#">Профиль</a></li>
+            </ul>
+        </nav>
+
+    </header>
+    <div class="content container-fluid mt-sm-0">
+        <h1>Запросы</h1>
+        <table border='1'>
+            <thead>
+            <tr>
+                <th>Запрос на</th>
+                <th>Запроситель</th>
+                <th>Книга в обмен</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${Xchange.isEmpty()}">
+                <td>Запросов на обмен нет.</td>
+            </tr>
+            <tr th:unless="${ReqBook}">
+            <tr th:each="xch: ${Xchange}">
+                <td>
+                    <p th:text="${xch.bookReq.getTitle()}"></p>
+                    <img th:src="@{${xch.bookReq.getImageUrl()}}" th:alt="${xch.bookReq.getTitle()}" width="100px">
+                    <p th:text="${xch.bookReq.getAuthor()}"></p>
+                    <p th:text="${xch.bookReq.getGenre()}"></p>
+                </td>
+                <td th:text="${xch.bookRequester.getUsername()}"></td>
+                <td>
+                    <p th:text="${xch.bookInstead.getTitle()}"></p>
+                    <img th:src="@{${xch.bookInstead.getImageUrl()}}" th:alt="${xch.bookReq.getTitle()}" width="100px">
+                    <p th:text="${xch.bookInstead.getAuthor()}"></p>
+                    <p th:text="${xch.bookInstead.getGenre()}"></p>
+                </td>
+                <td>
+                    <form th:action="@{/exchange/accept}" method="post">
+                        <input type="submit" value="Провести обмен">
+                        <input type="hidden" name="excId" th:value="${xch.id}">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    </form>
+
+                    <form th:action="@{/exchange/reject}" method="post">
+                        <input type="submit" value="Отклонить">
+                        <input type="hidden" name="excId" th:value="${xch.id}">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    </form>
+                </td>
+            </tr>
+            </tr>
+
+            </tbody>
+        </table>
+        <div class="pagination" th:if="${totalPages > 1}">
+            <a th:if="${currentPage > 0}" th:href="@{/main(page=${currentPage - 1}, title=${title}, genre=${genre})}">Предыдущая</a>
+
+            <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{/main(page=${i}, title=${title}, genre=${genre})}" th:class="${currentPage == i ? 'active' : ''}" th:text="${i + 1}"></a>
+            </span>
+
+            <a th:if="${currentPage < totalPages - 1}" th:href="@{/main(page=${currentPage + 1}, title=${title}, genre=${genre})}">Следующая</a>
+        </div>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>

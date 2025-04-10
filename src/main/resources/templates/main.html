@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <script th:src="@{/js/my.js}"></script>
+</head>
+<body>
+<div class="container-fluid page px-sm-0">
+    <header>
+        <img id="logo" src="/images/logo.webp" alt="logo" width="100px">
+        <h2>BOOKCHANGE</h2>
+            <nav>
+                <ul class="px-3 mx-sm-2">
+                    <li><a th:href="@{/myBooks}">Мои книги</a></li>
+                    <li><a th:href="@{/exchange}">Запросы на обмен</a></li>
+                    <li><form th:action="@{/logout}" method="post">
+                        <input type="submit" value="Sign Out"/>
+                    </form></li>
+                </ul>
+            </nav>
+
+    </header>
+    <div class="content container-fluid">
+        <h1>Все книги</h1>
+        <div class="filter">
+            <form th:action="@{/main}" method="get">
+                <label for="title">Название:</label>
+                <input type="text" id="title" name="title" th:value="${title}">
+
+                <label for="genre">Жанр:</label>
+                <input type="text" id="genre" name="genre" th:value="${genre}">
+
+                <button type="submit">Поиск</button>
+            </form>
+        </div>
+        <div class="row d-flex">
+            <div th:each="book : ${NotMyBook}" class="col-md-3 p-2 ">
+                <div class="book p-4">
+                    <span th:text="${book.ownerUsername}"></span>
+                    <h3 th:text="${book.title}"></h3>
+                    <span class="min">Автор</span><br>
+                    <span th:text="${book.author}"></span><br>
+                    <img th:src="${book.imageUrl}" th:alt="${book.title}" width="100%">
+                    <span class="min">Описание</span>
+                    <br><span th:text="${book.description}"></span><br>
+                    <span class="min1">Жанр: </span>
+                    <span th:text="${book.genre}"></span><br>
+                    <span class="min1">Год публикации: </span>
+                    <span th:text="${book.publicationYear}"></span><br>
+                    <span class="min1">ISBN: </span>
+                    <span th:text="${book.isbn}"></span><br><br>
+                </div>
+                <div class="req-wrap">
+                    <div class="Requested" th:if="${book.requested}">
+                        <span>Запрошено</span>
+                    </div>
+                    <div class="Request" th:unless="${book.requested}">
+                        <a th:href="@{myBooks/exchange/{id}(id=${book.id})}">Запросить обмен</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pagination" th:if="${totalPages > 1}">
+            <a th:if="${currentPage > 0}" th:href="@{/main(page=${currentPage - 1}, title=${title}, genre=${genre})}">Предыдущая</a>
+
+            <div th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{/main(page=${i}, title=${title}, genre=${genre})}" th:class="${currentPage == i ? 'active' : ''}" th:text="${i + 1}"></a>
+            </div>
+
+            <a th:if="${currentPage < totalPages - 1}" th:href="@{/main(page=${currentPage + 1}, title=${title}, genre=${genre})}">Следующая</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
