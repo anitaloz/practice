@@ -76,16 +76,12 @@ public class MainController {
 
         Page<Book> bookPage;
         if (title != null && !title.isEmpty() && genre != null && !genre.isEmpty()) {
-            // Ищем по названию и жанру
             bookPage = bookRepo.findBooksByOwnerIsNotAndTitleContainingIgnoreCaseAndGenreContainingIgnoreCase(user, title, genre, pageable);
         } else if (title != null && !title.isEmpty()) {
-            // Ищем только по названию
             bookPage = bookRepo.findBooksByOwnerIsNotAndTitleContainingIgnoreCase(user, title, pageable);
         } else if (genre != null && !genre.isEmpty()) {
-            // Ищем только по жанру
             bookPage = bookRepo.findBooksByOwnerIsNotAndGenreContainingIgnoreCase(user, genre, pageable);
         } else {
-            // Если нет параметров поиска, возвращаем все книги (с пагинацией)
             bookPage = bookRepo.findBooksByOwnerIsNot(user, pageable);
         }
 

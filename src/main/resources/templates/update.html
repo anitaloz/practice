@@ -10,7 +10,7 @@
     <link rel="stylesheet" th:href="@{/styles/style.css}">
 </head>
 <body>
-<div class="content container-fluid mt-sm-0">
+<div class="content_add container-fluid mt-sm-0">
 <h1>Редактировать книгу</h1>
 <form th:action="@{/update/{id}(id=${book.id})}" th:method="post" enctype="multipart/form-data" th:object="${book}">
     <input type="hidden" th:field="*{id}" />  <!-- Скрытое поле для ID -->

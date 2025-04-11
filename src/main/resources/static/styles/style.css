@@ -2,6 +2,32 @@
     margin:10px;
     float:left;
 }
+#arrow{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: left;
+}
+#arrow img{
+    padding:3px;
+}
+#arrow a{
+    font-size: 16pt;
+    color: #2d6a4f;
+    padding-left:10px
+}
+#actions{
+    position: relative;
+}
+#MyBookAdd{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    position: absolute;
+    right:0;
+    top:-3px;
+    padding-left:15px;
+    padding-right: 15px;
+}
 table{
     border: solid 1px;
 }
@@ -11,12 +37,27 @@ body{
     background-attachment:fixed;
 }
 
+a:hover{
+    color: #2d6a4f;
+}
+
 div.content{
     margin-top:3%;
     max-width: 90%;
     font-size: 12pt;
     font-family: 'AgencyCirillic';
-    background-color: rgba(183, 228, 199, 0.91);
+    background-color: rgb(183, 228, 199);
+    padding-top:15px;
+    padding-bottom:15px;
+    border-radius: 15px;
+}
+
+div.content_add{
+    margin-top:3%;
+    max-width: 90%;
+    font-size: 16pt;
+    font-family: 'AgencyCirillic';
+    background-color: rgb(183, 228, 199);
     padding-top:15px;
     padding-bottom:15px;
     border-radius: 15px;
@@ -81,6 +122,9 @@ nav form input{
     background-color: #95d5b2;
     border-radius: 5px;
     border: solid black;
+    margin-top:3px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 span{
@@ -98,11 +142,24 @@ span{
     border-bottom-right-radius: 3px;
 }
 .Request a{
-    display: flex;
-    justify-content: end;
+    float:left;
     padding-right:8px;
     color: #95d5b2;
     font-size: 18pt;
+}
+.Request{
+    display:flex;
+    justify-content: end;
+}
+.Request form{
+    display: flex;
+    justify-content: end;
+}
+
+.Request input{
+    background-color: #95d5b2;
+    border-color: #2d6a4f;
+    border-radius: 3px;
 }
 
 .Requested{
@@ -140,6 +197,68 @@ span{
 
 .pagination a.active{
     color: darkcyan;
+}
+
+.req-wrap a{
+    color: #95d5b2;
+}
+
+.exchangeActions
+{
+position: relative;
+}
+
+#accept{
+    position: absolute;
+    top:30%;
+    left:20%;
+}
+
+#accept input{
+    padding: 10px 30px;
+    background-color: #2d6a4f;
+    color: #ecf4ee;
+    font-size: 16pt;
+    border-radius: 5px;
+    border-color: #081c15;
+}
+
+#reject{
+    position: absolute;
+    top:30%;
+    right:20%;
+}
+
+#reject input{
+    padding:10px 30px;
+    background-color: #2d6a4f;
+    font-size: 16pt;
+    color: rgb(230, 243, 232);
+    border-color: #081c15;
+    border-radius: 5px;
+}
+
+#twoarrow{
+    position: absolute;
+    top:45%;
+    left:35%;
+}
+
+.requests{
+    padding-left:30px;
+    padding-right:30px;
+}
+
+.content_add label{
+    width:50%;
+
+}
+.content_add label input{
+    width:50%;
+}
+
+.content_add label textarea{
+    width:50%;
 }
 
 @font-face {
