@@ -23,7 +23,7 @@
             </ul>
         </nav>
     </header>
-    <div class="content container-fluid">
+    <div class="content container-fluid px-5">
         <div id="arrow">
             <img src="/images/free-icon-left-arrow-109618.png" alt="Стрелка" width="25px">
             <a th:href="@{/}">На главную</a>
@@ -37,7 +37,7 @@
                 <span class="p-2">Запрос от пользователя </span>
                 <span th:text="${xch.bookRequester.getUsername()}"></span>
                 <div class="requests row d-flex p-4">
-                    <div class="book col-4 p-4">
+                    <div class="bookex col-4 p-4">
                         <h3 th:text="${xch.getBookReq().getTitle()}"></h3>
                         <img th:src="@{${xch.getBookReq().getImageUrl()}}" th:alt="${xch.getBookReq().getTitle()}" width="100%"><br>
                         <span class="min1">Автор: </span>
@@ -66,7 +66,7 @@
                         </form>
                         <img id="twoarrow" src="/images/twoarrow.png" alt="twoarrow" width="30%">
                     </div>
-                    <div class="book col-4 p-4">
+                    <div class="bookex col-4 p-4">
                         <h3 th:text="${xch.getBookInstead().getTitle()}"></h3>
                         <img th:src="@{${xch.getBookInstead().getImageUrl()}}" th:alt="${xch.getBookReq().getTitle()}" width="100%"><br>
                         <span class="min1">Автор: </span>

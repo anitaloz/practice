@@ -4,13 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Spring Security Example</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
 </head>
 <body>
-<div class="container-fluid page px-sm-0">
+    <div class="contentlog">
 <h1>Login Page</h1>
 
 <div th:if="${param.error}">
@@ -25,7 +22,7 @@
     <div><label> User Name : <input type="text" name="username"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <div><input type="submit" value="Sign In"/></div>
+    <div><input id="loginp" type="submit" value="Sign In"/></div>
 </form>
 <a th:href="@{/registration}">Зарегистрироваться</a>
 </div>

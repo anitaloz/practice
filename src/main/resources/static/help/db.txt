@@ -1,51 +1,60 @@
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL, -- Храните хешированные пароли!
-    email VARCHAR(100) UNIQUE NOT NULL,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    city VARCHAR(50),
-    registration_date TIMESTAMP DEFAULT NOW()
+create table books
+(
+    id               bigserial
+        primary key,
+    title            varchar(255) not null,
+    author           varchar(255) not null,
+    isbn             varchar(20),
+    description      text,
+    genre            varchar(50),
+    publication_year integer,
+    owner_id         integer
+        references usr,
+    status           varchar(20) default 'Available'::character varying,
+    image_url        varchar(255)
 );
 
-CREATE TABLE books (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    isbn VARCHAR(20) UNIQUE,  -- Можно сделать UNIQUE, если требуется
-    description TEXT,
-    genre VARCHAR(50),
-    publication_year INTEGER,
-    owner_id INTEGER REFERENCES users(id), -- Владелец книги
-    status VARCHAR(20) DEFAULT 'Available', -- Available, Pending, Exchanged, Unavailable
-    image_url VARCHAR(255) NULL -- URL картинки обложки
+
+
+create table exchanges
+(
+    id            bigserial
+        primary key,
+    bookreqid     bigint
+        references books
+        constraint exchanges_bookreqid_fkey1
+            references books,
+    bookrequester bigint
+        references usr
+        constraint exchanges_bookrequester_fkey1
+            references usr,
+    bookinsteadid bigint
+        references books
+        constraint exchanges_bookinsteadid_fkey1
+            references books,
+    bookowner     bigint
+        references usr
+        constraint exchanges_bookowner_fkey1
+            references usr,
+    status        varchar(50)
 );
 
-CREATE TABLE exchanges (
-    id SERIAL PRIMARY KEY,
-    book_id INTEGER REFERENCES books(id),
-    requester_id INTEGER REFERENCES users(id), -- Кто запросил книгу
-    owner_id INTEGER REFERENCES users(id),   -- Кому принадлежит книга (для удобства)
-    request_date TIMESTAMP DEFAULT NOW(),
-    exchange_date TIMESTAMP,
-    return_date TIMESTAMP,
-    status VARCHAR(20) DEFAULT 'Pending'  -- Pending, Accepted, Rejected, Completed, Returned
+
+create table user_role
+(
+    user_id bigint      not null
+        references usr,
+    roles   varchar(30) not null,
+    primary key (user_id, roles)
 );
 
--- Дополнительные таблицы (по желанию):
-CREATE TABLE book_comments (
-    id SERIAL PRIMARY KEY,
-    book_id INTEGER REFERENCES books(id),
-    user_id INTEGER REFERENCES users(id),
-    comment_text TEXT NOT NULL,
-    comment_date TIMESTAMP DEFAULT NOW()
+create table usr
+(
+    id       bigserial
+        primary key,
+    username varchar(50)  not null
+        unique,
+    password varchar(255) not null,
+    active   varchar(30)
 );
 
-CREATE TABLE user_ratings (
-    id SERIAL PRIMARY KEY,
-    rater_id INTEGER REFERENCES users(id),
-    rated_id INTEGER REFERENCES users(id),
-    rating INTEGER,  -- Например, от 1 до 5
-    rating_date TIMESTAMP DEFAULT NOW()
-);

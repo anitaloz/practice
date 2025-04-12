@@ -4,14 +4,12 @@
 
     <meta charset="UTF-8">
     <title>Регистрация и Вход</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
 </head>
 <body>
-<div class="container-fluid page px-sm-0">
-    <a th:href="@{/registration}">Зарегистрироваться</a>
+<div class="contentlog">
+    <a th:href="@{/registration}">Зарегистрироваться</a><br>
+    <br>
     <a th:href="@{/login}">Войти</a>
 </div>
 </body>

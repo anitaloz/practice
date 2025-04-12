@@ -13,7 +13,7 @@
 }
 #arrow a{
     font-size: 16pt;
-    color: #2d6a4f;
+    color: #2f3e46;
     padding-left:10px
 }
 #actions{
@@ -32,13 +32,13 @@ table{
     border: solid 1px;
 }
 body{
-    background-color: #081c15;
-    background-image: url("../images/лес2.webp");
+    background-color: #2f3e46;
+    background-image: url("лес5.jpg");
     background-attachment:fixed;
 }
 
 a:hover{
-    color: #2d6a4f;
+    color: #52796f;
 }
 
 div.content{
@@ -46,10 +46,49 @@ div.content{
     max-width: 90%;
     font-size: 12pt;
     font-family: 'AgencyCirillic';
-    background-color: rgb(183, 228, 199);
-    padding-top:15px;
-    padding-bottom:15px;
+    background-color: #84a98c;
+    padding-top:35px;
+    padding-bottom:35px;
     border-radius: 15px;
+}
+
+.contentlog{
+    margin: 15% 20% 20%;
+    /*margin-top:3%;*/
+    max-width: 100%;
+    font-family: AgencyCirillic;
+    font-size: 18pt;
+    background-color: #84a98c;
+    padding:35px;
+    border-radius: 15px;
+}
+
+.contentlog h1{
+    margin-top:0;
+}
+
+.contentlog a{
+    color: #2f3e46;
+    text-decoration: none;
+}
+
+.contentlog a:hover{
+    color: #52796f;
+}
+
+#loginp{
+    font-size: 16pt;
+    padding-left:15px;
+    padding-right:15px;
+    margin-top:5px;
+    margin-bottom:5px;
+    font-family: "Times New Roman";
+    background-color: #ecf4ee;
+    border-radius: 3px;
+    border-color: #52796f;
+}
+.contentlog input {
+    font-size: 16pt;
 }
 
 div.content_add{
@@ -57,7 +96,7 @@ div.content_add{
     max-width: 90%;
     font-size: 16pt;
     font-family: 'AgencyCirillic';
-    background-color: rgb(183, 228, 199);
+    background-color: #84a98c;
     padding-top:15px;
     padding-bottom:15px;
     border-radius: 15px;
@@ -65,26 +104,32 @@ div.content_add{
 
 header
 {
-    background-color: rgb(8, 28, 21);
+    background-color: #2f3e46;
     width:100%;
     height:120px;
 }
 header h2{
-    color:#95d5b2;
+    color:#cad2c5;
     padding: 40px 40px 40px 10px;
     font-family: "Agency FB";
 }
 
 .book{
-    background-color: #d8f3dc;
+    background-color: #cad2c5;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+
+}
+
+.bookex{
+    background-color: #cad2c5;
+    border-radius: 5px;
 
 }
 button{
     border: solid 2px;
     border-radius: 3px;
-    background-color:#2d6a4f;
+    background-color:#52796f;
 }
 
 nav ul li{
@@ -108,7 +153,7 @@ nav{
 
 nav ul li a{
     font-family: AgencyCirillic;
-    color:#95d5b2;
+    color:#cad2c5;
     text-decoration: none;
     font-size: 18pt;
     font-weight: bold;
@@ -119,7 +164,7 @@ nav form{
 }
 
 nav form input{
-    background-color: #95d5b2;
+    background-color: #cad2c5;
     border-radius: 5px;
     border: solid black;
     margin-top:3px;
@@ -133,18 +178,18 @@ span{
 
 .min{
  font-size:12pt;
- color: #2d6a4f;
+ color: #52796f;
 }
 
 .req-wrap{
-    background-color: #2d6a4f;
+    background-color: #52796f;
     border-bottom-left-radius:  3px;
     border-bottom-right-radius: 3px;
 }
 .Request a{
     float:left;
     padding-right:8px;
-    color: #95d5b2;
+    color: #cad2c5;
     font-size: 18pt;
 }
 .Request{
@@ -157,13 +202,13 @@ span{
 }
 
 .Request input{
-    background-color: #95d5b2;
-    border-color: #2d6a4f;
+    background-color: #cad2c5;
+    border-color: #52796f;
     border-radius: 3px;
 }
 
 .Requested{
-    color: #081c15;
+    color: #2f3e46;
 }
 .Requested span{
     display: flex;
@@ -173,7 +218,7 @@ span{
 }
 
 .min1{
-    color: #2d6a4f;
+    color: #52796f;
     font-size: 16pt;
 }
 
@@ -186,13 +231,13 @@ span{
 .pagination a{
     margin:10px;
     font-size: 18pt;
-    color: #081c15;
+    color: #2f3e46;
     display:flex;
     justify-content: center;
 }
 
 .pagination a:hover{
-    color: #2d6a4f;
+    color: #52796f;
 }
 
 .pagination a.active{
@@ -200,7 +245,7 @@ span{
 }
 
 .req-wrap a{
-    color: #95d5b2;
+    color: #cad2c5;
 }
 
 .exchangeActions
@@ -215,12 +260,12 @@ position: relative;
 }
 
 #accept input{
-    padding: 10px 30px;
-    background-color: #2d6a4f;
+    padding: 5px 20px;
+    background-color: #52796f;
     color: #ecf4ee;
     font-size: 16pt;
     border-radius: 5px;
-    border-color: #081c15;
+    border-color: #2f3e46;
 }
 
 #reject{
@@ -230,11 +275,11 @@ position: relative;
 }
 
 #reject input{
-    padding:10px 30px;
-    background-color: #2d6a4f;
+    padding:5px 20px;
+    background-color: #52796f;
     font-size: 16pt;
     color: rgb(230, 243, 232);
-    border-color: #081c15;
+    border-color: #2f3e46;
     border-radius: 5px;
 }
 
