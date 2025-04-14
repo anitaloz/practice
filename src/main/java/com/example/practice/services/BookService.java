@@ -42,7 +42,7 @@ public class BookService {
         bookRepo.delete(book);
     }
 
-    public List<Book> findBooksByUserNot(User user){
+    public List<Book> getBooksByUserNot(User user){
         return bookRepo.findBooksByOwnerIsNot(user);
     };
 

@@ -2,6 +2,8 @@ package com.example.practice.domain;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name="exchanges")
 public class Exchange {
@@ -23,6 +25,8 @@ public class Exchange {
 
     @Column(length = 50)
     private String status = "Availible";
+    @Column(name="exchange_date")
+    private Date exchangeDate=new Date();
 
     public Exchange(Book bookReq, User bookRequester, Book bookInstead, User bookOwner, String status) {
         this.bookReq = bookReq;

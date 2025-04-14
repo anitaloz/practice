@@ -48,11 +48,18 @@
                 <img th:src="${book.imageUrl}" th:alt="${book.title}" width="100%">
                 <span class="min">Описание</span>
                 <div class="description-container">
+                    <div th:if="${book.getDescription().length()<50}">
+                        <span class="description-short">
+                            <span th:text="${book.getDescription()}"></span>
+                        </span>
+                    </div>
+                    <div th:if="${book.getDescription().length()>=50}">
                         <span class="description-short">
                             <span th:text="${#strings.substring(book.getDescription(), 0, 50)}"></span>...
                         </span>
-                    <span class="description-full description-hidden" th:text="${book.getDescription()}"></span>
-                    <a href="#" class="read-more-link">Подробнее</a>
+                        <span class="description-full description-hidden" th:text="${book.getDescription()}"></span>
+                        <a href="#" class="read-more-link">Подробнее</a>
+                    </div>
                 </div>
                 <span class="min1">Жанр: </span>
                 <span th:text="${book.getGenre}"></span><br>
