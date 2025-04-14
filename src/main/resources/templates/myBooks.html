@@ -38,16 +38,22 @@
     </div>
     <div id="formSearchingContainer1"></div>
 <h1>Список Книг</h1>
+    <div th:if="${!MyBook.isEmpty()}">
     <div class="row d-flex">
         <div th:each="book : ${MyBook}" class="col-md-3 p-2 ">
             <div class="book p-4">
-                <span th:text="${book.getOwnerUsername}"></span>
                 <h3 th:text="${book.getTitle}"></h3>
                 <span class="min">Автор</span><br>
                 <span th:text="${book.getAuthor}"></span><br>
-                <img th:src="${book.getImageUrl}" th:alt="${book.title}" width="100%">
+                <img th:src="${book.imageUrl}" th:alt="${book.title}" width="100%">
                 <span class="min">Описание</span>
-                <br><span th:text="${book.getDescription}"></span><br>
+                <div class="description-container">
+                        <span class="description-short">
+                            <span th:text="${#strings.substring(book.getDescription(), 0, 50)}"></span>...
+                        </span>
+                    <span class="description-full description-hidden" th:text="${book.getDescription()}"></span>
+                    <a href="#" class="read-more-link">Подробнее</a>
+                </div>
                 <span class="min1">Жанр: </span>
                 <span th:text="${book.getGenre}"></span><br>
                 <span class="min1">Год публикации: </span>
@@ -74,6 +80,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    </div>
+    <div th:if="${MyBook.isEmpty()}">
+        <h2 class="mx-3">Книг для обмена нет.</h2>
     </div>
 <!--    <tr th:each="book : ${MyBook}">-->
 <!--        <td th:text="${book.title}"></td>-->

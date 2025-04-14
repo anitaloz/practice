@@ -8,6 +8,24 @@
     display: flex;
     justify-content: left;
 }
+.description-hidden {
+    display: none;
+}
+
+.description-container {
+    margin-top: 5px; /* Добавлено для отступа */
+}
+
+.read-more-link {
+    cursor: pointer;
+    color: #081c15; /* Или другой подходящий цвет */
+    text-decoration: none; /* Убирает подчеркивание */
+}
+
+.read-more-link:hover {
+    text-decoration: underline; /* Подчеркивание при наведении */
+}
+
 #arrow img{
     padding:3px;
 }
@@ -186,6 +204,14 @@ span{
     border-bottom-left-radius:  3px;
     border-bottom-right-radius: 3px;
 }
+
+.bookex img{
+    margin: 5% 13%;
+}
+
+.bookex h3{
+    text-align: center;
+}
 .Request a{
     float:left;
     padding-right:8px;
@@ -253,11 +279,11 @@ span{
 position: relative;
 }
 
-#accept{
-    position: absolute;
-    top:30%;
-    left:20%;
-}
+/*#accept{*/
+/*    position: absolute;*/
+/*    top:30%;*/
+/*    left:25%;*/
+/*}*/
 
 #accept input{
     padding: 5px 20px;
@@ -266,13 +292,19 @@ position: relative;
     font-size: 16pt;
     border-radius: 5px;
     border-color: #2f3e46;
+    position: absolute;
+    top: 30%;
+    left: 28%;
 }
 
-#reject{
-    position: absolute;
-    top:30%;
-    right:20%;
+.center{
+    text-align: center;
 }
+/*#reject{*/
+/*    position: absolute;*/
+/*    top:60%;*/
+/*    left:30%;*/
+/*}*/
 
 #reject input{
     padding:5px 20px;
@@ -281,6 +313,9 @@ position: relative;
     color: rgb(230, 243, 232);
     border-color: #2f3e46;
     border-radius: 5px;
+    position: absolute;
+    top:60%;
+    left:33%;
 }
 
 #twoarrow{
@@ -292,6 +327,14 @@ position: relative;
 .requests{
     padding-left:30px;
     padding-right:30px;
+    max-width: 70%;
+    justify-content: center;
+}
+
+
+.rrr{
+    display: flex;
+    justify-content: center;
 }
 
 .content_add label{

@@ -26,7 +26,4 @@ public interface BookRepo extends JpaRepository<Book, Long> {
     Page<Book> findBooksByOwnerIsNotAndTitleContainingIgnoreCase(User owner, String title, Pageable pageable);
     Page<Book> findBooksByOwnerIsNotAndGenreContainingIgnoreCase(User owner, String genre, Pageable pageable);
     Page<Book> findBooksByOwnerIsNot(User owner, Pageable pageable);
-
-   // void deleteBookById(Long id);
-    //void saveCoverImage(Book existingBook, MultipartFile file);
 }

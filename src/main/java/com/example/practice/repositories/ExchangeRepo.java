@@ -12,5 +12,7 @@ public interface ExchangeRepo extends JpaRepository<Exchange, Long> {
     List<Exchange> findExchangeByBookReqAndBookRequester(Book b, User user);
     List<Exchange> findExchangeByBookReqAndStatus(Book b, String status);
     List<Exchange> findExchangeByBookInsteadAndStatus(Book b, String status);
+    List<Exchange> findExchangeByBookReq(Book b);
+    List<Exchange> findExchangeByBookInstead(Book b);
     Exchange findExchangeById(Long id);
 }

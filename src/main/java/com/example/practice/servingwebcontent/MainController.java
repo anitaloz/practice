@@ -3,9 +3,9 @@ package com.example.practice.servingwebcontent;
 import com.example.practice.domain.Book;
 import com.example.practice.domain.Exchange;
 import com.example.practice.domain.User;
-import com.example.practice.repositories.BookRepo;
-import com.example.practice.repositories.ExchangeRepo;
-import com.example.practice.repositories.UserRepo;
+import com.example.practice.services.BookService;
+import com.example.practice.services.ExchangeService;
+import com.example.practice.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +29,12 @@ import java.util.Map;
 public class MainController {
 
     @Autowired
-    BookRepo bookRepo;
+    private BookService bookService;
 
     @Autowired
-    UserRepo userRepo;
+    private UserService userService;
     @Autowired
-    private ExchangeRepo exchangeRepo;
+    private ExchangeService exchangeService;
 
     @GetMapping("/login")
     public String login(HttpServletRequest request, Model model) {
@@ -70,26 +70,26 @@ public class MainController {
                        Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepo.findByUsername(auth.getName());
+        User user = userService.getByUsername(auth.getName());
 
         Pageable pageable = PageRequest.of(page, DEFAULT_PAGE_SIZE); // Создаем объект Pageable для пагинации
 
         Page<Book> bookPage;
         if (title != null && !title.isEmpty() && genre != null && !genre.isEmpty()) {
-            bookPage = bookRepo.findBooksByOwnerIsNotAndTitleContainingIgnoreCaseAndGenreContainingIgnoreCase(user, title, genre, pageable);
+            bookPage = bookService.getBooksByOwnerIsNotAndTitleContainingIgnoreCaseAndGenreContainingIgnoreCase(user, title, genre, pageable);
         } else if (title != null && !title.isEmpty()) {
-            bookPage = bookRepo.findBooksByOwnerIsNotAndTitleContainingIgnoreCase(user, title, pageable);
+            bookPage = bookService.getBooksByOwnerIsNotAndTitleContainingIgnoreCase(user, title, pageable);
         } else if (genre != null && !genre.isEmpty()) {
-            bookPage = bookRepo.findBooksByOwnerIsNotAndGenreContainingIgnoreCase(user, genre, pageable);
+            bookPage = bookService.getBooksByOwnerIsNotAndGenreContainingIgnoreCase(user, genre, pageable);
         } else {
-            bookPage = bookRepo.findBooksByOwnerIsNot(user, pageable);
+            bookPage = bookService.getBooksByOwnerIsNot(user, pageable);
         }
 
         List<Book> books = bookPage.getContent(); // Получаем список книг с текущей страницы
         Map<Book, String> exchangeMessages=new HashMap<>();
         for(Book b:books)
         {
-            List<Exchange> e=exchangeRepo.findExchangeByBookReqAndBookRequester(b, user);
+            List<Exchange> e=exchangeService.getExchangeByBookReqAndBookRequester(b, user);
             if(!e.isEmpty())
             {
                 for(Exchange ex:e)

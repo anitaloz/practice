@@ -9,6 +9,7 @@
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" th:href="@{/styles/style.css}">
     <link rel="icon" th:href="@{/styles/logo.ico}" type="image/x-icon">
+    <script th:src="@{/js/my.js}"></script>
 </head>
 <body>
 <div class="container-fluid page px-sm-0">
@@ -35,19 +36,29 @@
         </div>
         <div th:unless="${ReqBook}">
             <div th:each="xch: ${Xchange}">
-                <span class="p-2">Запрос от пользователя </span>
-                <span th:text="${xch.bookRequester.getUsername()}"></span>
+                <div class="center">
+                    <span class="p-2">Запрос от пользователя </span>
+                    <span th:text="${xch.bookRequester.getUsername()}"></span>
+                </div>
+                <div class="rrr">
                 <div class="requests row d-flex p-4">
                     <div class="bookex col-4 p-4">
                         <h3 th:text="${xch.getBookReq().getTitle()}"></h3>
-                        <img th:src="@{${xch.getBookReq().getImageUrl()}}" th:alt="${xch.getBookReq().getTitle()}" width="100%"><br>
+                        <img th:src="@{${xch.getBookReq().getImageUrl()}}" th:alt="${xch.getBookReq().getTitle()}" width="70%"><br>
                         <span class="min1">Автор: </span>
                         <span th:text="${xch.getBookReq().getAuthor()}"></span><br>
                         <span class="min">Описание</span>
                         <br>
+                        <div class="description-container">
+                        <span class="description-short">
+                            <span th:text="${#strings.substring(xch.getBookReq().getDescription(), 0, 50)}"></span>...
+                        </span>
+                            <span class="description-full description-hidden" th:text="${xch.getBookReq().getDescription()}"></span>
+                            <a href="#" class="read-more-link">Подробнее</a>
+                        </div>
                         <span class="min1">Год публикации: </span>
                         <span th:text="${xch.getBookReq().getPublicationYear()}"></span><br>
-                        <span th:text="${xch.getBookReq().getDescription()}"></span><br>
+
                         <span class="min1">Жанр: </span>
                         <span th:text="${xch.getBookReq().getGenre()}"></span><br>
                         <span class="min1">ISBN: </span>
@@ -69,21 +80,31 @@
                     </div>
                     <div class="bookex col-4 p-4">
                         <h3 th:text="${xch.getBookInstead().getTitle()}"></h3>
-                        <img th:src="@{${xch.getBookInstead().getImageUrl()}}" th:alt="${xch.getBookReq().getTitle()}" width="100%"><br>
+                        <img th:src="@{${xch.getBookInstead().getImageUrl()}}" th:alt="${xch.getBookReq().getTitle()}" width="70%"><br>
                         <span class="min1">Автор: </span>
                         <span th:text="${xch.getBookInstead().getAuthor()}"></span><br>
                         <span class="min">Описание</span>
                         <br>
+                        <div class="description-container">
+                        <span class="description-short">
+                            <span th:text="${#strings.substring(xch.getBookInstead().getDescription(), 0, 50)}"></span>...
+                        </span>
+                            <span class="description-full description-hidden" th:text="${xch.getBookInstead().getDescription()}"></span>
+                            <a href="#" class="read-more-link">Подробнее</a>
+                        </div>
                         <span class="min1">Год публикации: </span>
                         <span th:text="${xch.getBookInstead().getPublicationYear()}"></span><br>
-                        <span th:text="${xch.getBookInstead().getDescription()}"></span><br>
+
                         <span class="min1">Жанр: </span>
                         <span th:text="${xch.getBookInstead().getGenre()}"></span><br>
                         <span class="min1">ISBN: </span>
                         <span th:text="${xch.getBookInstead().getIsbn()}"></span><br><br>
                     </div>
                 </div>
+                </div>
+                <br>
             </div>
+
         </div>
 <!--        <table border='1'>-->
 <!--            <thead>-->

@@ -3,10 +3,10 @@ package com.example.practice.servingwebcontent;
 import com.example.practice.domain.Book;
 import com.example.practice.domain.Exchange;
 import com.example.practice.domain.User;
-import com.example.practice.repositories.BookRepo;
-import com.example.practice.repositories.BookService;
+import com.example.practice.services.BookService;
 import com.example.practice.repositories.ExchangeRepo;
-import com.example.practice.repositories.UserRepo;
+import com.example.practice.services.ExchangeService;
+import com.example.practice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -26,25 +26,22 @@ import java.util.UUID;
 
 @Controller
 public class MyBooksController {
-    @Autowired
-    BookRepo bookRepo;
 
     @Autowired
-    UserRepo userRepo;
-
+    private BookService bookService;
     @Autowired
-    BookService bookService;
-    @Value("${upload.directory}") //Укажите путь в application.properties
+    private UserService userService;
+    @Value("${upload.directory}")
     private String uploadDirectory;
     @Autowired
-    private ExchangeRepo exchangeRepo;
+    private ExchangeService exchangeService;
 
     @GetMapping("/myBooks")
     public String MyBooksGet(Model model)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user=userRepo.findByUsername(auth.getName());
-        List<Book> b=bookRepo.findBooksByOwnerIs(user);
+        User user=userService.getByUsername(auth.getName());
+        List<Book> b=bookService.getBooksByUser(user);
         model.addAttribute("MyBook", b);
         return "myBooks";
     }
@@ -53,58 +50,6 @@ public class MyBooksController {
     public String addGet(Model model)
     {
         return "add";
-    }
-    private String validateTitle(String title) {
-        if (title == null || title.trim().isEmpty()) {
-            return "Название не может быть пустым.";
-        } else if (title.length() > 255) {
-            return "Название не может быть длиннее 255 символов.";
-        }
-        return null;
-    }
-    private String validateAuthor(String author) {
-        if (author == null || author.trim().isEmpty()) {
-            return "Автор не может быть пустым.";
-        } else if (author.length() > 255) {
-            return "Автор не может быть длиннее 255 символов.";
-        }
-        return null;
-    }
-
-    private String validateIsbn(String isbn) {
-        if (isbn == null || isbn.trim().isEmpty()) {
-            return "ISBN не может быть пустым.";
-        } else if (!isbn.matches("^(?:ISBN(?:-13)?:?)(?=[0-9]{13}$)([0-9]{3}-){2}[0-9]{3}[0-9X]$")) {
-            return "Неверный формат ISBN.";
-        }
-        return null;
-    }
-
-    private String validateDescription(String description) {
-        if (description == null || description.trim().isEmpty()) {
-            return "Описание не может быть пустым.";
-        } else if (description.length() > 1000) {
-            return "Описание не может быть длиннее 1000 символов.";
-        }
-        return null;
-    }
-
-    private String validateGenre(String genre) {
-        if (genre == null || genre.trim().isEmpty()) {
-            return "Жанр не может быть пустым.";
-        } else if (genre.length() > 50) {
-            return "Жанр не может быть длиннее 50 символов.";
-        }
-        return null;
-    }
-
-    private String validatePublicationYear(Integer publicationYear) {
-        if (publicationYear == null) {
-            return "Год публикации не может быть пустым.";
-        } else if (publicationYear < 1000 || publicationYear > 2024) {
-            return "Год публикации должен быть между 1000 и 2024.";
-        }
-        return null;
     }
     @PostMapping("/add")
     public String add(
@@ -118,12 +63,12 @@ public class MyBooksController {
             RedirectAttributes redirectAttributes,
             Model model) {
 
-        String titleError = validateTitle(title);
-        String authorError = validateAuthor(author);
-        String isbnError = null;//validateIsbn(isbn);
-        String descriptionError = validateDescription(description);
-        String genreError = validateGenre(genre);
-        String publicationYearError = validatePublicationYear(publicationYear);
+        String titleError = bookService.validateTitle(title);
+        String authorError = bookService.validateAuthor(author);
+        String isbnError = bookService.validateIsbn(isbn);
+        String descriptionError = bookService.validateDescription(description);
+        String genreError = bookService.validateGenre(genre);
+        String publicationYearError = bookService.validatePublicationYear(publicationYear);
 
 
         if (titleError != null || authorError != null || isbnError != null ||
@@ -146,7 +91,7 @@ public class MyBooksController {
             return "redirect:/add";
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepo.findByUsername(auth.getName());
+        User user = userService.getByUsername(auth.getName());
         String imageUrl = "";
 
         if (!coverImage.isEmpty()) {
@@ -171,7 +116,7 @@ public class MyBooksController {
         }
 
         Book b = new Book(title, author, isbn, description, genre, publicationYear, user, imageUrl);
-        bookRepo.save(b);
+        bookService.saveBook(b);
         return "redirect:/myBooks";
     }
 
@@ -179,7 +124,7 @@ public class MyBooksController {
     public String updatePost(@RequestParam Long id,
                                  Model model)
     {
-        Book b=bookRepo.findBookById(id);
+        Book b=bookService.getBookById(id);
 
         return "update";
     }
@@ -191,23 +136,23 @@ public class MyBooksController {
 
     @GetMapping("/update/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
-        Book book = bookRepo.getBookById(id);
+        Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
         return "update";
     }
 
     @PostMapping("/update/{id}")
     public String updateBook(@PathVariable("id") Long id, @ModelAttribute("book") Book book, @RequestParam("coverImage") MultipartFile file, Model model, RedirectAttributes redirectAttributes) {
-        Book existingBook = bookRepo.getBookById(id);
+        Book existingBook = bookService.getBookById(id);
         if (existingBook == null){
             return "error";
         }
-        String titleError = validateTitle(book.getTitle());
-        String authorError = validateAuthor(book.getAuthor());
-        String isbnError = null;//validateIsbn(book.getIsbn());
-        String descriptionError = validateDescription(book.getDescription());
-        String genreError = validateGenre(book.getGenre());
-        String publicationYearError = validatePublicationYear(book.getPublicationYear());
+        String titleError = bookService.validateTitle(book.getTitle());
+        String authorError = bookService.validateAuthor(book.getAuthor());
+        String isbnError = bookService.validateIsbn(book.getIsbn());
+        String descriptionError = bookService.validateDescription(book.getDescription());
+        String genreError = bookService.validateGenre(book.getGenre());
+        String publicationYearError = bookService.validatePublicationYear(book.getPublicationYear());
 
         if (titleError != null || authorError != null || isbnError != null ||
                 descriptionError != null || genreError != null || publicationYearError != null) {
@@ -234,7 +179,7 @@ public class MyBooksController {
         existingBook.setIsbn(book.getIsbn());
         existingBook.setGenre(book.getGenre());
         existingBook.setPublicationYear(book.getPublicationYear());
-
+        bookService.deleteOldCoverImage(existingBook);
         if (!file.isEmpty()) {
             try {
                 bookService.saveCoverImage(existingBook, file);
@@ -242,15 +187,25 @@ public class MyBooksController {
                 return "error";
             }
         }
-        bookRepo.save(existingBook);
+        bookService.saveBook(existingBook);
         return "redirect:/myBooks";
     }
 
     @PostMapping("/myBooks")
     public String delete(@RequestParam Long id,  Model model)
     {
-        Book b=bookRepo.getBookById(id);
-        bookRepo.delete(b);
+        Book b=bookService.getBookById(id);
+        List<Exchange> x=exchangeService.getExchangeByBookReq(b);
+        List<Exchange> x2=exchangeService.getExchangeByBookInstead(b);
+        if(!x.isEmpty())
+        {
+            exchangeService.deleteAllExchanges(x);
+        }
+        if(x2!=null)
+        {
+            exchangeService.deleteAllExchanges(x2);
+        }
+        bookService.deleteBook(b);
         bookService.deleteOldCoverImage(b);
         return "redirect:/myBooks";
     }
@@ -259,10 +214,10 @@ public class MyBooksController {
     public String exchange(@PathVariable("id") Long id,  Model model)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user=userRepo.findByUsername(auth.getName());
-        List<Book> b=bookRepo.findBooksByOwnerIs(user);
+        User user=userService.getByUsername(auth.getName());
+        List<Book> b=bookService.getBooksByUser(user);
         model.addAttribute("MyBook", b);
-        Book req=bookRepo.getBookById(id);
+        Book req=bookService.getBookById(id);
         model.addAttribute("ReqBook", req);
         return "myBooks";
     }
@@ -271,11 +226,11 @@ public class MyBooksController {
     public String exchangePost(@RequestParam Long id, @RequestParam Long reqId, Model model)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepo.findByUsername(auth.getName());
-        Book b=bookRepo.getBookById(id);
-        Book bReq=bookRepo.getBookById(reqId);
+        User user = userService.getByUsername(auth.getName());
+        Book b=bookService.getBookById(id);
+        Book bReq=bookService.getBookById(reqId);
         Exchange exchange=new Exchange(bReq,user ,b, bReq.getOwner(), "Requested");
-        exchangeRepo.save(exchange);
+        exchangeService.saveExchange(exchange);
         return "redirect:/main";
     }
 }
